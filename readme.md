@@ -20,7 +20,7 @@ python3 -m http.server 8000
 ```
 
 ## 使い方
-1. index.htmlにアクセスする
+1. index.htmlにアクセスする(https://roodni.github.io/YAD-CW/index.html)
 2. 再生ボタンで再生されたコールサインを聞き取り、テキストボックスに書きとる
 3. 答え合わせボタンで確認する
 4. 2〜3の操作を気が済むまで繰り返す
