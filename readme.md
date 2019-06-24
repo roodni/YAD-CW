@@ -12,6 +12,13 @@ PC版のChrome, FireFox, Safari
 ## セットアップ
 サーバー上に置きます
 
+例(Python3を使用)：
+```
+git clone https://github.com/roodni/YAD-CW.git
+cd YAD-CW
+python3 -m http.server 8000
+```
+
 ## 使い方
 1. index.htmlにアクセスする
 2. 再生ボタンで再生されたコールサインを聞き取り、テキストボックスに書きとる
