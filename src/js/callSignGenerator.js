@@ -1,17 +1,24 @@
 export default class CallSignGenerator {
     generate() {
-        const charAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const charNumber = '0123456789';
+        const charAlphabets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const charNumbers = '0123456789';
 
-        let prefix = createStrRnd(charAlphabet + charNumber, 3);
-        let suffix = createStrRnd(charAlphabet, 3 - (randInt(10) == 0 ? 1 : 0));
+	const charAlphabetsWithoutQ = charAlphabets.replace('Q', '');
+	const charNumbersWithout01 = charNumbers.replace('01', '');
+	
+	let firstChar = createCharRnd(charAlphabetsWithoutQ + charNumbersWithout01);
+	let secondChar = createCharRnd(charAlphabets + ((charNumbers.includes(firstChar)) ? '' : charNumbersWithout01));
+	
+	let prefix = firstChar + secondChar;
+	let number = createCharRnd(charNumbers);
+        let suffix = createStrRnd(charAlphabets, 3 - (randInt(50) == 0 ? 1 : 0));
         
         let portable = '';
         if (randInt(7) == 0) {
             portable = '/' + randInt(0, 10);
         }
 
-        return prefix + suffix + portable;
+        return prefix + number + suffix + portable;
     }
 }
 
@@ -29,4 +36,8 @@ function createStrRnd(charSet, length) {
         str += charSet[randInt(0, charSet.length)];
     }
     return str;
+}
+
+function createCharRnd(charSet) {
+    return charSet[randInt(0, charSet.length)];
 }
