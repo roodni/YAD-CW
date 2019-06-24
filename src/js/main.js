@@ -94,7 +94,7 @@ class Main {
             tr.appendChild(td_ans);
             tr.appendChild(td_input);
             tr.appendChild(td_res);
-            tableResults.appendChild(tr);
+            tableResults.insertBefore(tr, tableResults.firstChild);
 
             inputText.value = '';
             this.callSign = this.callSignGenerator.generate();
