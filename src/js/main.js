@@ -1,5 +1,5 @@
 import CwSound from './cwSound.js';
-import CallSignGenerator from './callSignGenerator.js';
+import CallSignGenerator from './callSignMgr.js';
 
 class Main {
     constructor() {
