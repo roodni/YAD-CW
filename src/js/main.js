@@ -98,13 +98,16 @@ class Main {
 
             inputText.value = '';
             this.callSign = this.callSignGenerator.generate();
-            this.cwSound.playCwText(this.callSign);
+            // this.cwSound.playCwText(this.callSign);
             inputText.focus();
         });
         
         // 再生
         buttonPlay.addEventListener('click', () => {
-            this.cwSound.playCwText(this.callSign);
+            buttonPlay.disabled = true;
+            this.cwSound.playCwText(this.callSign, () => {
+                buttonPlay.disabled = false;
+            });
             inputText.focus();
         });
     }

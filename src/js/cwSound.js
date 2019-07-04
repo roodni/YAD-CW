@@ -59,9 +59,10 @@ export default class CwSound {
     }
     /**
      * 文字列をモールス符号化し再生する
-     * @param {string} text 
+     * @param {string} text 再生する文字列
+     * @param {any} callBack 再生終了後実行される関数
      */
-    playCwText(text) {
+    playCwText(text, callBack = null) {
         // 警告を回避するため、イベントのタイミングでコンテキストを取得する
         this.getAudioContext();
 
@@ -89,6 +90,12 @@ export default class CwSound {
             }
             usedDot += 2;
         }
+
+        setTimeout(() => {
+            if (typeof(callBack) === 'function') {
+                callBack();
+            }
+        }, this.dotTime * usedDot * 1000);
     }
 }
 
