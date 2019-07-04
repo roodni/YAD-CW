@@ -1,14 +1,13 @@
 import CwSound from './cwSound.js';
-import CallSignGenerator from './callSignMgr.js';
+import CallSignMgr from './callSignMgr.js';
 
 class Main {
     constructor() {
         this.cwSound = new CwSound();
-        this.callSignGenerator = new CallSignGenerator();
-        this.callSign = '';
+        this.callSignMgr = new CallSignMgr();
     }
     init() {
-        this.callSign = this.callSignGenerator.generate();
+        this.callSignMgr.generate();
 
         // イベントの設定
         const numberWpm = document.getElementById('wpm');
@@ -82,30 +81,30 @@ class Main {
 
         // 答え合わせ
         buttonAnswer.addEventListener('click', () => {
+            const answer = this.callSignMgr.getCallSign();
             const input = inputText.value.toUpperCase();
             
             const tr = document.createElement('tr');
             const td_ans = document.createElement('td');
             const td_input = document.createElement('td');
             const td_res = document.createElement('td');
-            td_ans.innerText = this.callSign;
-            td_input.innerText = input;
-            td_res.innerText = (this.callSign === input) ? 'o' : 'x';
+            td_ans.innerHTML = answer;
+            td_input.innerHTML = this.callSignMgr.highlightDiff(answer, input, 'wrong');
+            td_res.innerText = (answer === input) ? 'o' : 'x';
             tr.appendChild(td_ans);
             tr.appendChild(td_input);
             tr.appendChild(td_res);
             tableResults.insertBefore(tr, tableResults.firstChild);
 
+            this.callSignMgr.generate();
             inputText.value = '';
-            this.callSign = this.callSignGenerator.generate();
-            // this.cwSound.playCwText(this.callSign);
             inputText.focus();
         });
         
         // 再生
         buttonPlay.addEventListener('click', () => {
             buttonPlay.disabled = true;
-            this.cwSound.playCwText(this.callSign, () => {
+            this.cwSound.playCwText(this.callSignMgr.getCallSign(), () => {
                 buttonPlay.disabled = false;
             });
             inputText.focus();
