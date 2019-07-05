@@ -1,42 +1,34 @@
-export default class CallSignMgr {
-    constructor() {
-        this.callSign = '';
+export function generate() {
+    const charAlphabets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const charNumbers = '0123456789';
+
+    const charAlphabetsWithoutQ = charAlphabets.replace('Q', '');
+    const charNumbersWithout01 = charNumbers.replace('01', '');
+
+    let firstChar = createCharRnd(charAlphabetsWithoutQ + charNumbersWithout01);
+    let secondChar = createCharRnd(charAlphabets + ((charNumbers.includes(firstChar)) ? '' : charNumbersWithout01));
+
+    let prefix = firstChar + secondChar;
+    let number = createCharRnd(charNumbers);
+    let suffix = createStrRnd(charAlphabets, 3 - (randInt(50) == 0 ? 1 : 0));
+    
+    let portable = '';
+    if (randInt(7) == 0) {
+        portable = '/' + randInt(0, 10);
     }
-    generate() {
-        const charAlphabets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const charNumbers = '0123456789';
 
-        const charAlphabetsWithoutQ = charAlphabets.replace('Q', '');
-        const charNumbersWithout01 = charNumbers.replace('01', '');
-
-        let firstChar = createCharRnd(charAlphabetsWithoutQ + charNumbersWithout01);
-        let secondChar = createCharRnd(charAlphabets + ((charNumbers.includes(firstChar)) ? '' : charNumbersWithout01));
-	
-        let prefix = firstChar + secondChar;
-        let number = createCharRnd(charNumbers);
-        let suffix = createStrRnd(charAlphabets, 3 - (randInt(50) == 0 ? 1 : 0));
-        
-        let portable = '';
-        if (randInt(7) == 0) {
-            portable = '/' + randInt(0, 10);
+    return prefix + number + suffix + portable;
+}
+export function highlightDiff(answer, input, highlightCssClass) {
+    let ret = '';
+    for (let i = 0; i < input.length; i++) {
+        let c = input[i];
+        if (answer[i] !== c) {
+            c = `<span class="${highlightCssClass}">${c}</span>`;
         }
-
-        this.callSign = prefix + number + suffix + portable;
+        ret += c;
     }
-    getCallSign() {
-        return this.callSign;
-    }
-    highlightDiff(answer, input, highlightCssClass) {
-        let ret = '';
-        for (let i = 0; i < input.length; i++) {
-            let c = input[i];
-            if (answer[i] !== c) {
-                c = `<span class="${highlightCssClass}">${c}</span>`;
-            }
-            ret += c;
-        }
-        return ret;
-    }
+    return ret;
 }
 
 function randInt(min, max) {

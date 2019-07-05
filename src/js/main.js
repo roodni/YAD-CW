@@ -1,13 +1,12 @@
 import CwSound from './cwSound.js';
-import CallSignMgr from './callSignMgr.js';
+import * as callSignUtil from './callSignMgr.js';
 
 class Main {
     constructor() {
         this.cwSound = new CwSound();
-        this.callSignMgr = new CallSignMgr();
+        this.callSign = callSignUtil.generate();
     }
     init() {
-        this.callSignMgr.generate();
 
         // イベントの設定
         const numberWpm = document.getElementById('wpm');
@@ -81,7 +80,7 @@ class Main {
 
         // 答え合わせ
         buttonAnswer.addEventListener('click', () => {
-            const answer = this.callSignMgr.getCallSign();
+            const answer = this.callSign;
             const input = inputText.value.toUpperCase();
             
             const tr = document.createElement('tr');
@@ -89,14 +88,14 @@ class Main {
             const td_input = document.createElement('td');
             const td_res = document.createElement('td');
             td_ans.innerHTML = answer;
-            td_input.innerHTML = this.callSignMgr.highlightDiff(answer, input, 'wrong');
+            td_input.innerHTML = callSignUtil.highlightDiff(answer, input, 'wrong');
             td_res.innerText = (answer === input) ? 'o' : 'x';
             tr.appendChild(td_ans);
             tr.appendChild(td_input);
             tr.appendChild(td_res);
             tableResults.insertBefore(tr, tableResults.firstChild);
 
-            this.callSignMgr.generate();
+            this.callSign = callSignUtil.generate();
             inputText.value = '';
             inputText.focus();
         });
@@ -104,7 +103,7 @@ class Main {
         // 再生
         buttonPlay.addEventListener('click', () => {
             buttonPlay.disabled = true;
-            this.cwSound.playCwText(this.callSignMgr.getCallSign(), () => {
+            this.cwSound.playCwText(this.callSign, () => {
                 buttonPlay.disabled = false;
             });
             inputText.focus();
