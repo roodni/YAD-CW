@@ -5,6 +5,7 @@ class Main {
     constructor() {
         this.cwSound = new CwSound();
         this.callSign = callSignUtil.generate();
+        this.playNum = 0;
     }
     init() {
 
@@ -87,15 +88,21 @@ class Main {
             const td_ans = document.createElement('td');
             const td_input = document.createElement('td');
             const td_res = document.createElement('td');
+            const td_playNum = document.createElement('td');
+
             td_ans.innerHTML = answer;
             td_input.innerHTML = callSignUtil.highlightDiff(answer, input, 'wrong');
             td_res.innerText = (answer === input) ? 'o' : 'x';
+            td_playNum.innerText = this.playNum;
+
             tr.appendChild(td_ans);
             tr.appendChild(td_input);
             tr.appendChild(td_res);
+            tr.appendChild(td_playNum);
             tableResults.insertBefore(tr, tableResults.firstChild);
 
             this.callSign = callSignUtil.generate();
+            this.playNum = 0;
             inputText.value = '';
             inputText.focus();
         });
@@ -106,6 +113,7 @@ class Main {
             this.cwSound.playCwText(this.callSign, () => {
                 buttonPlay.disabled = false;
             });
+            this.playNum++;
             inputText.focus();
         });
     }
