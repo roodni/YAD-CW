@@ -92,7 +92,7 @@ class Main {
 
             td_ans.innerHTML = answer;
             td_input.innerHTML = callSignUtil.highlightDiff(answer, input, 'wrong');
-            td_res.innerText = (answer === input) ? 'o' : 'x';
+            td_res.innerHTML = (answer === input) ? 'o' : '<span class="wrong">x</span>';
             td_playNum.innerText = this.playNum;
 
             tr.appendChild(td_ans);
