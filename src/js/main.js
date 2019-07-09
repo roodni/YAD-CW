@@ -47,10 +47,12 @@ class Main {
             } else {
                 this.cwSound.setWpm(wpm);
             }
+            localStorage.setItem('wpm', this.cwSound.wpm);
         };
         numberWpm.addEventListener('change', (e) => {
             changeWpm();
         });
+        numberWpm.value = localStorage.getItem('wpm');
         changeWpm();
 
         // 周波数の変更
@@ -61,10 +63,12 @@ class Main {
             } else {
                 this.cwSound.setFrequency(freq);
             }
+            localStorage.setItem('freq', this.cwSound.frequency);
         };
         numberHz.addEventListener('change', (e) => {
             changeHz();
         });
+        numberHz.value = localStorage.getItem('freq');
         changeHz();
 
         // ショートカットキー
