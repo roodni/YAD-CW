@@ -73,15 +73,21 @@ class Main {
 
         // ショートカットキー
         inputText.addEventListener('keydown', (e) => {
-            if (e.key == 'Enter') {
+            if (e.key === 'Enter') {
                 buttonAnswer.click();
                 e.preventDefault();
             }
-            if (e.key == '.') {
+            if (e.key === '.') {
                 buttonPlay.click();
                 e.preventDefault();
             }
         });
+        // safari対応
+        inputText.addEventListener('beforeinput', (e) => {
+            if (e.data === '.') {
+                e.preventDefault();
+            }
+        })
 
         // 答え合わせ
         buttonAnswer.addEventListener('click', () => {
