@@ -81,7 +81,7 @@ class Main {
         checkboxJapan.addEventListener('change', (e) => {
             changeArea();
         });
-        checkboxJapan.checked = localStorage.getItem('japan');
+        checkboxJapan.checked = localStorage.getItem('japan') === 'true';
         changeArea();
 
         // ショートカットキー
