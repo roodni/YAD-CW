@@ -31,12 +31,37 @@ function generateWorldPrefix() {
 
     return firstChar + secondChar + number;
 }
-export function generate() {
+
+const prefixList = [];
+function generateJapanAmateurPrefix() {
+    if (prefixList.length === 0) {
+        // JA, JE - JS
+        for (let second of 'AEFGHIJKLMNOPQRS') {
+            for (let num = 0; num <= 9; num++) {
+                prefixList.push('J' + second + num);
+            }
+        }
+
+        // 7K - 7N
+        for (let second of 'KLMN') {
+            for (let num = 1; num <= 4; num++) {
+                prefixList.push('7' + second + num);
+            }
+        }
+    }
+
+    return prefixList[randInt(prefixList.length)];
+}
+
+export function generate(area) {
     let prefix;
 
-    prefix = generateWorldPrefix();
+    if (area === 'japan') {
+        prefix = generateJapanAmateurPrefix();
+    } else {
+        prefix = generateWorldPrefix();
+    }
     let suffix = createStrRnd(charAlphabets, 3 - (randInt(50) == 0 ? 1 : 0));
-    
     let portable = '';
     if (randInt(7) == 0) {
         portable = '/' + randInt(0, 10);

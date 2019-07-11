@@ -4,14 +4,16 @@ import * as callSignUtil from './callSignUtil.js';
 class Main {
     constructor() {
         this.cwSound = new CwSound();
-        this.callSign = callSignUtil.generate();
+        this.callSign = '';
         this.playNum = 0;
+        this.isJapan = false;
     }
     init() {
 
         // イベントの設定
         const numberWpm = document.getElementById('wpm');
         const numberHz = document.getElementById('hz');
+        const checkboxJapan = document.getElementById('japan');
         const inputText = document.getElementById('text');
         const buttonAnswer = document.getElementById('answer');
         const buttonPlay = document.getElementById('play');
@@ -71,6 +73,18 @@ class Main {
         numberHz.value = localStorage.getItem('freq');
         changeHz();
 
+        // コールサイン国内限定
+        const changeArea = () => {
+            this.isJapan = checkboxJapan.checked;
+            this.callSign = callSignUtil.generate(this.isJapan ? 'japan' : '');
+            localStorage.setItem('japan', this.isJapan);
+        }
+        checkboxJapan.addEventListener('change', (e) => {
+            changeArea();
+        });
+        checkboxJapan.checked = localStorage.getItem('japan');
+        changeArea();
+
         // ショートカットキー
         inputText.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
@@ -111,7 +125,7 @@ class Main {
             tr.appendChild(td_playNum);
             tableResults.insertBefore(tr, tableResults.firstChild);
 
-            this.callSign = callSignUtil.generate();
+            this.callSign = callSignUtil.generate(this.isJapan ? 'japan' : '');
             this.playNum = 0;
             inputText.value = '';
             inputText.focus();
