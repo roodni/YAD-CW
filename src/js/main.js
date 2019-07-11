@@ -76,7 +76,6 @@ class Main {
         // コールサイン国内限定
         const changeArea = () => {
             this.isJapan = checkboxJapan.checked;
-            this.callSign = callSignUtil.generate(this.isJapan ? 'japan' : '');
             localStorage.setItem('japan', this.isJapan);
         }
         checkboxJapan.addEventListener('change', (e) => {
@@ -124,8 +123,9 @@ class Main {
             tr.appendChild(td_res);
             tr.appendChild(td_playNum);
             tableResults.insertBefore(tr, tableResults.firstChild);
-
-            this.callSign = callSignUtil.generate(this.isJapan ? 'japan' : '');
+            
+            buttonAnswer.disabled = true;
+            this.callSign = '';
             this.playNum = 0;
             inputText.value = '';
             inputText.focus();
@@ -133,6 +133,11 @@ class Main {
         
         // 再生
         buttonPlay.addEventListener('click', () => {
+            // コールサインが空であれば生成する
+            if (this.callSign === '') {
+                buttonAnswer.disabled = false;
+                this.callSign = callSignUtil.generate(this.isJapan ? 'japan' : '');
+            }
             buttonPlay.disabled = true;
             this.cwSound.playCwText(this.callSign, () => {
                 buttonPlay.disabled = false;
