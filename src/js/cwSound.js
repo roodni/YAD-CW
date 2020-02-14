@@ -65,18 +65,19 @@ export default class CwSound {
     playCwText(text, callBack = null) {
 	// アルファベットを大文字に
 	// 濁点付きのかなを分割
-	function validate(chr) {
+	function validate(text) {
 	    const DAKUTEN = 'がぎぐげござじずぜぞだぢづでどばびぶべぼ';
 	    const HANDAKUTEN = 'ぱぴぷぺぽ';
-	    const uppered = chr.toUpperCase();
 
-	    if (DAKUTEN.includes(uppered)) {
-		return String.fromCharCode(uppered.charCodeAt(0) - 1) + ' ゛';
-	    }
-	    else if (HANDAKUTEN.includes(uppered)) {
-		return String.fromCharCode(uppered.charCodeAt(0) - 2) + ' ゜';
-	    }
-	    return uppered;
+	    return text.toUpperCase().split('').map(chr => {
+		if (DAKUTEN.includes(chr)) {
+		    return String.fromCharCode(chr.charCodeAt(0) - 1) + ' ゛';
+		}
+		else if (HANDAKUTEN.includes(chr)) {
+		    return String.fromCharCode(chr.charCodeAt(0) - 2) + ' ゜';
+		}
+		return chr
+	    }).join('');
 	}
 	
         // 警告を回避するため、イベントのタイミングでコンテキストを取得する
@@ -84,14 +85,13 @@ export default class CwSound {
 
         const startTime = this.audioCtx.currentTime;
         let usedDot = 0;
-        for (const chr of text) {
-	    const validated = validate(chr);
+        for (const chr of validate(text)) {
 	    
-            if (morseCode[validated] === undefined) {
+            if (morseCode[chr] === undefined) {
                 continue;
             }
             
-            for (let j of morseCode[validated]) {
+            for (let j of morseCode[chr]) {
                 switch(j) {
                 case '.':
                     this.playSineWave(startTime + this.dotTime * usedDot, this.dotTime);
@@ -107,6 +107,7 @@ export default class CwSound {
             }
             usedDot += 2;
         }
+
 
         setTimeout(() => {
             if (typeof(callBack) === 'function') {
@@ -152,5 +153,6 @@ const morseCode = {
     'り': '--.',   'る': '-.--.', 'れ': '---',
     'ろ': '.-.-',  'わ': '-.-',   'ゐ': '.-..-',
     'ゑ': '.--..', 'ん': '.-.-.', 'ー': '.--.-',
-    '゛': '..',    '゜': '..--.',
+    '゛': '..',    '゜': '..--.', '、': '.-.-.-',
+    '「': '-.--.-', '」': '.-..-.',
 };
