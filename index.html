@@ -24,10 +24,11 @@
         <p>
             速度: <input type="number" id="wpm" min="10" max="30"> wpm<br>
             音程: <input type="number" id="hz" min="400" max="1000"> Hz<br>
-            <label>
-                <input type="checkbox" id="japan">
-                コールサインを日本のアマチュア局に限定
-            </label>
+	    <form name="mode_form">
+	      <label><input type="radio" name="mode" value="world-callsign">世界じうのコールサイン</label><br>
+	      <label><input type="radio" name="mode" value="japan-callsign">コールサインを日本のアマチュア局に限定</label><br>
+	      <label><input type="radio" name="mode" value="wabun-random">和文ランダム6文字</label>
+	    </form>
         </p>
         <h2>練習</h2>
         <p>

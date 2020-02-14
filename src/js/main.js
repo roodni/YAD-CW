@@ -6,14 +6,14 @@ class Main {
         this.cwSound = new CwSound();
         this.callSign = '';
         this.playNum = 0;
-        this.isJapan = false;
+	this.mode = '';
     }
     init() {
 
         // イベントの設定
         const numberWpm = document.getElementById('wpm');
         const numberHz = document.getElementById('hz');
-        const checkboxJapan = document.getElementById('japan');
+	const modeSelector = document.mode_form;
         const inputText = document.getElementById('text');
         const buttonAnswer = document.getElementById('answer');
         const buttonPlay = document.getElementById('play');
@@ -73,16 +73,23 @@ class Main {
         numberHz.value = localStorage.getItem('freq');
         changeHz();
 
-        // コールサイン国内限定
-        const changeArea = () => {
-            this.isJapan = checkboxJapan.checked;
-            localStorage.setItem('japan', this.isJapan);
-        }
-        checkboxJapan.addEventListener('change', (e) => {
-            changeArea();
-        });
-        checkboxJapan.checked = localStorage.getItem('japan') === 'true';
-        changeArea();
+	// モード切替
+	const changeMode = () => {
+	    this.mode = modeSelector.mode.value;
+	    localStorage.setItem('mode', this.mode);
+	}
+
+	const initMode = () => {
+	    modeSelector.addEventListener('change', (e) => {changeMode()});
+	    const modeInStorage = localStorage.getItem('mode');
+	    const m = modeInStorage ? modeInStorage : 'world-callsign';
+	    
+	    modeSelector.mode.forEach(element => {
+		if (element.value === m) element.checked = true;
+	    });
+	    changeMode();
+	}
+	initMode();
 
         // ショートカットキー
         inputText.addEventListener('keydown', (e) => {
@@ -136,7 +143,7 @@ class Main {
             // コールサインが空であれば生成する
             if (this.callSign === '') {
                 buttonAnswer.disabled = false;
-                this.callSign = callSignUtil.generate(this.isJapan ? 'japan' : '');
+                this.callSign = callSignUtil.generate(this.mode);
             }
             buttonPlay.disabled = true;
             this.cwSound.playCwText(this.callSign, () => {

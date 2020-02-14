@@ -1,5 +1,6 @@
 const charAlphabets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const charNumbers = '0123456789';
+const charKana = 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをんがぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽ、ー「」';
 
 function randInt(min, max) {
     if (max === undefined) {
@@ -53,21 +54,34 @@ function generateJapanAmateurPrefix() {
     return prefixList[randInt(prefixList.length)];
 }
 
-export function generate(area) {
-    let prefix;
+/**
+* mode: "japan-callsign" | "wabun-random" | normal
+*/
+export function generate(mode) {
+    function generateCallsign(area) {
+	let prefix;
 
-    if (area === 'japan') {
-        prefix = generateJapanAmateurPrefix();
-    } else {
-        prefix = generateWorldPrefix();
-    }
-    let suffix = createStrRnd(charAlphabets, 3 - (randInt(50) == 0 ? 1 : 0));
-    let portable = '';
-    if (randInt(7) == 0) {
-        portable = '/' + randInt(0, 10);
+	if (area === 'japan') {
+            prefix = generateJapanAmateurPrefix();
+	} else {
+            prefix = generateWorldPrefix();
+	}
+	let suffix = createStrRnd(charAlphabets, 3 - (randInt(50) == 0 ? 1 : 0));
+	let portable = '';
+	if (randInt(7) == 0) {
+            portable = '/' + randInt(0, 10);
+	}
+
+	return prefix + suffix + portable;
     }
 
-    return prefix + suffix + portable;
+    if (mode === 'wabun-random') {
+	return createStrRnd(charKana, 6);
+    }
+    else if (mode === 'japan-callsign') {
+	return generateCallsign('japan');
+    }
+    return generateCallsign('');
 }
 export function highlightDiff(answer, input, highlightCssClass) {
     let ret = '';
