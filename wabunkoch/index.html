@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>和文コッホ法</title>
+    <style>
+      * { font-family: monospace; }
+      header,h3 { border-bottom: solid 1px black; }
+    </style>
+  </head>
+  
+  <body>
+    <header><a href="/index.html">トップ</a></header>
+    <h1>CW練習</h1>
+    <h2>和文コッホ法</h2>
+    
+    <h3>レッスン選択</h3>
+    <div>
+      番号:
+      <select name="select_lesson" size="1">
+	<option>1</option><option>2</option><option>3</option>
+	<option>4</option><option>5</option><option>6</option>
+	<option>7</option><option>8</option><option>9</option>
+	<option>10</option><option>11</option><option>12</option>
+	<option>13</option><option>14</option><option>15</option>
+	<option>16</option><option>17</option><option>18</option>
+	<option>19</option><option>20</option><option>21</option>
+	<option>22</option><option>23</option><option>24</option>
+	<option>25</option><option>26</option><option>27</option>
+	<option>28</option><option>29</option><option>30</option>
+	<option>31</option><option>32</option><option>33</option>
+	<option>34</option><option>35</option><option>36</option>
+	<option>37</option><option>38</option><option>39</option>
+	<option>40</option><option>41</option><option>42</option>
+	<option>43</option><option>44</option><option>45</option>
+	<option>46</option><option>47</option><option>48</option>
+	<option>49</option><option>50</option><option>51</option>
+	<option>52</option>
+      </select>
+      <label id="lesson_character">文字</label>
+      <input type="button" value="試聴" id="play_lesson_character">
+    </div>
+    
+    <h3>練習</h3>
+    <div>
+      <form name="practice" action="/wabunkoch">
+	<p>
+	  <input type="button" value="再生" id="play_practice_text">
+	</p>
+	<textarea spellcheck="false" autocomplete="off" autocorrect="off"
+		  autocapitalize="off" cols="40" rows="10"
+		  name="input"></textarea>
+      </form>
+    </div>
+
+    <h3>答え合わせ</h3>
+    <div>
+      <p>
+	<input type="button" value="確認">
+	<input type="button" value="もういちど" disabled>
+	<input type="button" value="次のレッスン" disabled>
+      </p>
+      <div id="check">
+      </div>
+    </div>
+        
+    <script src="./src/js/main.js" type="module"></script>
+  </body>
+  
+</html>
