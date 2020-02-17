@@ -17,7 +17,7 @@
     <h3>レッスン選択</h3>
     <div>
       番号:
-      <select name="select_lesson" size="1">
+      <select id="lesson_number" size="1">
 	<option>1</option><option>2</option><option>3</option>
 	<option>4</option><option>5</option><option>6</option>
 	<option>7</option><option>8</option><option>9</option>
@@ -35,15 +35,16 @@
 	<option>43</option><option>44</option><option>45</option>
 	<option>46</option><option>47</option><option>48</option>
 	<option>49</option><option>50</option><option>51</option>
-	<option>52</option>
+	<option>52</option><option>53</option><option>54</option>
       </select>
-      <label id="lesson_character">文字</label>
-      <input type="button" value="試聴" id="play_lesson_character">
+      <div id="play_appended_chars"></div>
+      <!-- <label id="lesson_character">文字</label> -->
+      <!-- <input type="button" value="試聴" id="play_lesson_character"> -->
     </div>
     
     <h3>練習</h3>
     <div>
-      <form name="practice" action="/wabunkoch">
+      <form id="practice" action="/wabunkoch">
 	<p>
 	  <input type="button" value="再生" id="play_practice_text">
 	</p>
