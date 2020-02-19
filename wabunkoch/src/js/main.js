@@ -10,7 +10,7 @@ function Main() {
     const practiceText = lesson.generateText(10);
 
     playPracticeTextButton.addEventListener('click', (e) => {
-	cwPlayer.playCwText(practiceText);
+        cwPlayer.playCwText(practiceText);
     })
 }
 
@@ -18,7 +18,7 @@ function init() {
     const lessonSelector = document.querySelector('select#lesson_number');
 
     lessonSelector.addEventListener('change', (e) => {
-	main = new Main();
+        main = new Main();
     })
 }
 

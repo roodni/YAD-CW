@@ -1,14 +1,13 @@
-Array.prototype.last = function() {
-    return this[this.length - 1];
-}
-Array.prototype.randomElement = function() {
-    return this[Math.floor(Math.random() * this.length)];
-}
-String.prototype.repeat = function(count) {
-    return Array
-	.from({length: count}, (_ => this))
-	.join('');
-}
+Object.defineProperty(
+    Array.prototype,
+    'last',
+    { get: function () { return this[this.length - 1] } }
+);
+Object.defineProperty(
+    Array.prototype,
+    'randomElement',
+    { get: function () { return this[Math.floor(Math.random() * this.length)] } }
+);
 
 export default function Lesson(lessonNumber) {
 
@@ -19,36 +18,35 @@ export default function Lesson(lessonNumber) {
     this.lessonNumber = lessonNumber;
     this.practiceChars = '';
     this.appendedChars = '';
-    
-    if (lessonNumber < BASIC_CHARS.length) {
-	this.practiceChars = BASIC_CHARS.slice(0, lessonNumber + 1);
-	this.appendedChars = (lessonNumber === 1) ? this.practiceChars : this.practiceChars.last();
-    }
-    else if (lessonNumber === BASIC_CHARS.length) {
-	this.practiceChars = BASIC_CHARS.concat(DAKUTENS);
-	this.appendedChars = DAKUTENS;
-    }
-    else {
-	this.practiveChars = BASIC_CHARS.concat(DAKUTENS).concat(HANDAKUTENS);
-	this.appendedChars = HANDAKUTENS;
-    }
 
-    console.log(this.practiceChars);
+    if (lessonNumber < BASIC_CHARS.length) {
+        this.practiceChars = BASIC_CHARS.slice(0, lessonNumber + 1);
+        this.appendedChars = (lessonNumber === 1) ? this.practiceChars : this.practiceChars.last;
+    }
+    // 濁点
+    else if (lessonNumber === BASIC_CHARS.length) {
+        this.practiceChars = BASIC_CHARS.concat(DAKUTENS);
+        this.appendedChars = DAKUTENS[0];
+    }
+    // 半濁点
+    else {
+        this.practiveChars = BASIC_CHARS.concat(DAKUTENS).concat(HANDAKUTENS);
+        this.appendedChars = HANDAKUTENS;
+    }
 }
 
-Lesson.prototype.generateText = function(count) {
+Lesson.prototype.generateText = function (count) {
     const cellSize = 5;
     const spaceSize = 3;
-    const self = this;
-    function randomText(size) {
-	return Array.from({length: size},
-			  (_ => self.practiceChars.randomElement()));
+    const randomText = (size) => {
+        return Array.from(
+            { length: size },
+            (_ => this.practiceChars.randomElement));
     }
 
     return Array
-	.from({length: count},
-	      (_ => randomText(cellSize).join('')))
-	.join(' '.repeat(spaceSize));
+        .from({ length: count }, (_ => randomText(cellSize).join('')))
+        .join(' '.repeat(spaceSize));
 }
 
 
