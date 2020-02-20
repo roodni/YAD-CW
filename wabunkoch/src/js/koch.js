@@ -9,43 +9,62 @@ Object.defineProperty(
     { get: function () { return this[Math.floor(Math.random() * this.length)] } }
 );
 
+
+/**
+* @constructor
+* @param {number} lessonNumber
+*
+* @property {number} lessonNumber
+* @property {Array.<String>} letters - Letters in this lesson
+* @property {Array.<String>} addedLetters - Letters previous lesson does not have
+*/
 export default function Lesson(lessonNumber) {
 
-    const BASIC_CHARS = 'ちやてゆねきほゑれかよいえをさあーろんのもそはしつに、たくけなゐおわふみひせら「むまめりすとぬうる」へこ'.split('');
-    const DAKUTENS = 'がぎぐげござじずぜぞだぢづでどばびぶべぼ'.split('');
-    const HANDAKUTENS = 'ぱぴぷぺぽ'.split('');
+    const LETTERS_GOJUON_AND_MARK = 'ちやてゆねきほゑれかよいえをさあーろんのもそはしつに、たくけなゐおわふみひせら「むまめりすとぬうる」へこ'.split('');
+    const LETTERS_DAKUTEN = 'がぎぐげござじずぜぞだぢづでどばびぶべぼ'.split('');
+    const LETTERS_HANDAKUTEN = 'ぱぴぷぺぽ'.split('');
 
     this.lessonNumber = lessonNumber;
-    this.practiceChars = '';
-    this.appendedChars = '';
 
-    if (lessonNumber < BASIC_CHARS.length) {
-        this.practiceChars = BASIC_CHARS.slice(0, lessonNumber + 1);
-        this.appendedChars = (lessonNumber === 1) ? this.practiceChars : this.practiceChars.last;
+    // 五十音と記号
+    if (lessonNumber < LETTERS_GOJUON_AND_MARK.length) {
+        this.letters = LETTERS_GOJUON_AND_MARK.slice(0, lessonNumber + 1);
+        this.addedLetters = (lessonNumber === 1) ? this.letters : this.letters.last;
     }
     // 濁点
-    else if (lessonNumber === BASIC_CHARS.length) {
-        this.practiceChars = BASIC_CHARS.concat(DAKUTENS);
-        this.appendedChars = DAKUTENS[0];
+    else if (lessonNumber === LETTERS_GOJUON_AND_MARK.length) {
+        this.letters = LETTERS_GOJUON_AND_MARK.concat(LETTERS_DAKUTEN);
+        this.addedLetters = '゛';
     }
     // 半濁点
     else {
-        this.practiveChars = BASIC_CHARS.concat(DAKUTENS).concat(HANDAKUTENS);
-        this.appendedChars = HANDAKUTENS;
+        this.practiveChars =
+	    LETTERS_GOJUON_AND_MARK
+	    .concat(LETTERS_DAKUTEN)
+	    .concat(LETTERS_HANDAKUTEN);
+        this.addedLetters = '゜';
     }
 }
 
+
+/**
+* 時間で区切るのは難しいので、テキストの長さで区切る
+* @method
+* @param {number} count - 5字の塊を単語を繰り返す回数
+* @return {String}
+*/
 Lesson.prototype.generateText = function (count) {
     const cellSize = 5;
     const spaceSize = 3;
     const randomText = (size) => {
-        return Array.from(
-            { length: size },
-            (_ => this.practiceChars.randomElement));
+        return Array
+	    .from({ length: size },
+		  (_ => this.letters.randomElement))
+	    .join('');
     }
 
     return Array
-        .from({ length: count }, (_ => randomText(cellSize).join('')))
+        .from({ length: count }, (_ => randomText(cellSize)))
         .join(' '.repeat(spaceSize));
 }
 
