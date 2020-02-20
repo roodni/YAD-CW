@@ -1,3 +1,12 @@
+import CWSound from '/src/js/cwSound.js';
+
+const cwPlayer = new CWSound();
+
+const LETTERS_GOJUON_AND_MARK = 'ちやてゆねきほゑれかよいえをさあーろんのもそはしつに、たくけなゐおわふみひせら「むまめりすとぬうる」へこ'.split('');
+const LETTERS_DAKUTEN = 'がぎぐげござじずぜぞだぢづでどばびぶべぼ'.split('');
+const LETTERS_HANDAKUTEN = 'ぱぴぷぺぽ'.split('');
+
+
 Object.defineProperty(
     Array.prototype,
     'last',
@@ -10,6 +19,7 @@ Object.defineProperty(
 );
 
 
+
 /**
 * @constructor
 * @param {number} lessonNumber
@@ -20,31 +30,30 @@ Object.defineProperty(
 */
 export default function Lesson(lessonNumber) {
 
-    const LETTERS_GOJUON_AND_MARK = 'ちやてゆねきほゑれかよいえをさあーろんのもそはしつに、たくけなゐおわふみひせら「むまめりすとぬうる」へこ'.split('');
-    const LETTERS_DAKUTEN = 'がぎぐげござじずぜぞだぢづでどばびぶべぼ'.split('');
-    const LETTERS_HANDAKUTEN = 'ぱぴぷぺぽ'.split('');
-
     this.lessonNumber = lessonNumber;
 
     // 五十音と記号
     if (lessonNumber < LETTERS_GOJUON_AND_MARK.length) {
         this.letters = LETTERS_GOJUON_AND_MARK.slice(0, lessonNumber + 1);
-        this.addedLetters = (lessonNumber === 1) ? this.letters : this.letters.last;
+        this.addedLetters = (lessonNumber === 1) ? this.letters : [this.letters.last];
     }
     // 濁点
     else if (lessonNumber === LETTERS_GOJUON_AND_MARK.length) {
         this.letters = LETTERS_GOJUON_AND_MARK.concat(LETTERS_DAKUTEN);
-        this.addedLetters = '゛';
+        this.addedLetters = ['゛'];
     }
     // 半濁点
     else {
-        this.practiveChars =
+        this.letters =
 	    LETTERS_GOJUON_AND_MARK
 	    .concat(LETTERS_DAKUTEN)
 	    .concat(LETTERS_HANDAKUTEN);
-        this.addedLetters = '゜';
+        this.addedLetters = ['゜'];
     }
 }
+
+
+Lesson.size = LETTERS_GOJUON_AND_MARK.length + 1;
 
 
 /**
@@ -69,3 +78,30 @@ Lesson.prototype.generateText = function (count) {
 }
 
 
+/**
+* 文字を再生するDOM要素を生成
+* @method
+* @return {object}
+*/
+Lesson.prototype.createAddedLetterPlayers = function () {
+    const repeatCount = 10;
+
+    return this.addedLetters.map((letter) => {
+	
+	let label = document.createElement('label');
+	label.textContent = letter;
+
+	let playerButton = document.createElement('input');
+	playerButton.setAttribute('type', 'button');
+	playerButton.setAttribute('value', '聴く');
+	playerButton.addEventListener('click', (e) => {
+	    cwPlayer.playCwText(Array(repeatCount).fill(letter).join(' '));
+	})
+
+	let parent = document.createElement('p');
+	parent.appendChild(label);
+	parent.appendChild(playerButton);
+
+	return parent;
+    })
+}
