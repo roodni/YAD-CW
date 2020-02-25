@@ -33,7 +33,6 @@ function main(lessonNumber) {
 
 function init() {
     const lessonSelector = document.querySelector('select#lesson_numbers');
-    const lessonNumber = Number(lessonSelector.value);
 
     createLessonNumberOptions(Lesson.size).forEach((option) => {
 	lessonSelector.appendChild(option);
@@ -44,6 +43,7 @@ function init() {
         new main(lessonNumber);
     })
 
+    const lessonNumber = Number(lessonSelector.value);
     new main(lessonNumber);
 }
 
