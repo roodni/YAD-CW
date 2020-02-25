@@ -12,7 +12,7 @@ function createLessonNumberOptions(count) {
 }
 
 
-function main(lessonNumber) {
+function initLesson(lessonNumber) {
 
     const addedLettersDiv = document.querySelector('div#added_letters');
     const playPracticeTextButton = document.querySelector('input#play_practice_text');
@@ -31,20 +31,38 @@ function main(lessonNumber) {
 }
 
 
-function init() {
+function initLessonSelector() {
+
+    function getLessonNumberFromParam(url) {
+	const params = (new URL(url)).searchParams;
+	const lessonNumber = Number(params.get('lesson'));
+
+	if (lessonNumber !== undefined &&
+	    Number.isInteger(lessonNumber) &&
+	    lessonNumber >= 1 &&
+	    lessonNumber <= Lesson.size) {
+	    return lessonNumber;
+	} else {
+	    return 1;
+	}
+    }
+
+    const lessonNumber = getLessonNumberFromParam(document.location);
     const lessonSelector = document.querySelector('select#lesson_numbers');
 
     createLessonNumberOptions(Lesson.size).forEach((option) => {
 	lessonSelector.appendChild(option);
     })
+    lessonSelector.value = lessonNumber;
 
-    lessonSelector.addEventListener('change', (e) => {
-	const lessonNumber = Number(lessonSelector.value);
-        new main(lessonNumber);
-    })
+    return lessonNumber;
+}
 
-    const lessonNumber = Number(lessonSelector.value);
-    new main(lessonNumber);
+
+function init() {
+
+    const lessonNumber = initLessonSelector();
+    initLesson(lessonNumber);
 }
 
 init();

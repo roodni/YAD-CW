@@ -17,7 +17,9 @@
     <h3>レッスン選択</h3>
     <div>
       番号:
-      <select id="lesson_numbers" size="1"></select>
+      <form action="/wabunkoch">
+	<select id="lesson_numbers" name="lesson" size="1" onchange="submit();"></select>
+      </form>
       <div id="added_letters"></div>
     </div>
     
