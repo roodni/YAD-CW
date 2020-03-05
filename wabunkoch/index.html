@@ -31,18 +31,18 @@
 	</p>
 	<textarea spellcheck="false" autocomplete="off" autocorrect="off"
 		  autocapitalize="off" cols="40" rows="10"
-		  name="input"></textarea>
+		  id="received"></textarea>
       </form>
     </div>
 
     <h3>答え合わせ</h3>
     <div>
       <p>
-	<input type="button" value="確認">
-	<input type="button" value="もういちど" disabled>
-	<input type="button" value="次のレッスン" disabled>
+	<input type="button" value="確認" id="check">
+	<input type="button" value="もういちど" id="retry" disabled>
+	<input type="button" value="次のレッスン" id="next" disabled>
       </p>
-      <div id="check"></div>
+      <div id="check_result"></div>
     </div>
         
     <script src="./src/js/main.js" type="module"></script>

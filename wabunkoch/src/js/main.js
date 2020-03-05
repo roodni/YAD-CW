@@ -1,5 +1,6 @@
 import CWSound from '/src/js/cwSound.js';
 import Lesson from '/wabunkoch/src/js/lesson.js';
+import Checker from '/wabunkoch/src/js/checker.js';
 
     
 function initLessonSelector(lesson) {
@@ -38,6 +39,25 @@ function initPlayer(lesson) {
 }
 
 
+function check(lesson) {
+
+    const receivedTextArea = document.querySelector('textarea#received');
+    const resultDiv = document.querySelector('div#check_result');
+    const retryButton = document.querySelector('input#retry');
+    const nextButton = document.querySelector('input#next');
+
+    const checker = new Checker(lesson.practiceText, receivedTextArea.value);
+
+    resultDiv.innerText = checker.resultText();
+
+    retryButton.disabled = false;
+    
+    if (checker.passed()) {
+	nextButton.disabled = false;
+    }
+}
+
+
 function init() {
 
     function getLessonNumberFromParam(url) {
@@ -58,7 +78,12 @@ function init() {
     const lesson = new Lesson(lessonNumber);
 
     initLessonSelector(lesson);
-    initPlayer(lesson)
+    initPlayer(lesson);
+
+    const checkButton = document.querySelector('input#check');
+    checkButton.addEventListener('click', (e) => {
+	check(lesson);
+    });
 }
 
 init();
