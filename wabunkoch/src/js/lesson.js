@@ -19,6 +19,21 @@ Object.defineProperty(
 );
 
 
+function generateText(count, letters) {
+    const cellSize = 5;
+    const spaceSize = 3;
+    const randomText = (size) => {
+        return Array
+	    .from({ length: size },
+		  (_ => letters.randomElement))
+	    .join('');
+    }
+
+    return Array
+        .from({ length: count }, (_ => randomText(cellSize)))
+        .join(' '.repeat(spaceSize));
+}
+
 
 /**
 * @constructor
@@ -50,32 +65,12 @@ export default function Lesson(lessonNumber) {
 	    .concat(LETTERS_HANDAKUTEN);
         this.addedLetters = ['゜'];
     }
+
+    this.practiceText = generateText(10, this.letters);
 }
 
 
 Lesson.size = LETTERS_GOJUON_AND_MARK.length + 1;
-
-
-/**
-* 時間で区切るのは難しいので、テキストの長さで区切る
-* @method
-* @param {number} count - 5字の塊を単語を繰り返す回数
-* @return {String}
-*/
-Lesson.prototype.generateText = function (count) {
-    const cellSize = 5;
-    const spaceSize = 3;
-    const randomText = (size) => {
-        return Array
-	    .from({ length: size },
-		  (_ => this.letters.randomElement))
-	    .join('');
-    }
-
-    return Array
-        .from({ length: count }, (_ => randomText(cellSize)))
-        .join(' '.repeat(spaceSize));
-}
 
 
 /**

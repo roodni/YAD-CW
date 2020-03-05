@@ -1,37 +1,44 @@
 import CWSound from '/src/js/cwSound.js';
-import Lesson from '/wabunkoch/src/js/koch.js';
+import Lesson from '/wabunkoch/src/js/lesson.js';
 
-const cwPlayer = new CWSound();
     
-function createLessonNumberOptions(count) {
-    return Array(count).fill().map((_, index) => {
-	let option = document.createElement('option');
-	option.textContent = index + 1;
-	return option;
+function initLessonSelector(lesson) {
+
+    function createLessonNumberOptions(count) {
+	return Array(count).fill().map((_, index) => {
+	    let option = document.createElement('option');
+	    option.textContent = index + 1;
+	    return option;
+	})
+    }
+
+    const lessonSelector = document.querySelector('select#lesson_numbers');
+
+    createLessonNumberOptions(Lesson.size).forEach((option) => {
+	lessonSelector.appendChild(option);
     })
+    lessonSelector.value = lesson.lessonNumber;
 }
 
 
-function initLesson(lessonNumber) {
+function initPlayer(lesson) {
+
+    const cwPlayer = new CWSound();
 
     const addedLettersDiv = document.querySelector('div#added_letters');
     const playPracticeTextButton = document.querySelector('input#play_practice_text');
-    
-    const lesson = new Lesson(lessonNumber);
-    const practiceText = lesson.generateText(10);
 
-    addedLettersDiv.innerHTML = '';
     lesson.createAddedLetterPlayers().forEach((element) => {
 	addedLettersDiv.appendChild(element);
     });
 
     playPracticeTextButton.addEventListener('click', (e) => {
-        cwPlayer.playCwText(practiceText);
+        cwPlayer.playCwText(lesson.practiceText);
     })
 }
 
 
-function initLessonSelector() {
+function init() {
 
     function getLessonNumberFromParam(url) {
 	const params = (new URL(url)).searchParams;
@@ -48,21 +55,10 @@ function initLessonSelector() {
     }
 
     const lessonNumber = getLessonNumberFromParam(document.location);
-    const lessonSelector = document.querySelector('select#lesson_numbers');
+    const lesson = new Lesson(lessonNumber);
 
-    createLessonNumberOptions(Lesson.size).forEach((option) => {
-	lessonSelector.appendChild(option);
-    })
-    lessonSelector.value = lessonNumber;
-
-    return lessonNumber;
-}
-
-
-function init() {
-
-    const lessonNumber = initLessonSelector();
-    initLesson(lessonNumber);
+    initLessonSelector(lesson);
+    initPlayer(lesson)
 }
 
 init();
