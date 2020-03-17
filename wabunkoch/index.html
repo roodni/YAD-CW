@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>和文コッホ法</title>
+    <style>
+      * { font-family: monospace; }
+      header,h3 { border-bottom: solid 1px black; }
+    </style>
+  </head>
+  
+  <body>
+    <header><a href="/index.html">トップ</a></header>
+    <h1>CW練習</h1>
+    <h2>和文コッホ法</h2>
+    
+    <h3>レッスン選択</h3>
+    <div>
+      番号:
+      <form action="/wabunkoch">
+	<select id="lesson_numbers" name="lesson" size="1" onchange="submit();"></select>
+      </form>
+      <div id="added_letters"></div>
+    </div>
+    
+    <h3>練習</h3>
+    <div>
+      <form id="practice" action="/wabunkoch">
+	<p>
+	  <input type="button" value="再生" id="play_practice_text">
+	</p>
+	<textarea spellcheck="false" autocomplete="off" autocorrect="off"
+		  autocapitalize="off" cols="40" rows="10"
+		  id="received"></textarea>
+      </form>
+    </div>
+
+    <h3>答え合わせ</h3>
+    <div>
+      <p>
+	<input type="button" value="確認" id="check">
+	<input type="button" value="もういちど" id="retry" disabled>
+	<input type="button" value="次のレッスン" id="next" disabled>
+      </p>
+      <div id="check_result"></div>
+    </div>
+        
+    <script src="./src/js/main.js" type="module"></script>
+  </body>
+  
+</html>
