@@ -1,4 +1,4 @@
-import CWSound from '/src/js/cwSound.js';
+import CWSound from '../../../src/js/cwSound.js';
 
 const cwPlayer = new CWSound();
 

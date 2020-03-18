@@ -1,6 +1,6 @@
-import CWSound from '/src/js/cwSound.js';
-import Lesson from '/wabunkoch/src/js/lesson.js';
-import Checker from '/wabunkoch/src/js/checker.js';
+import CWSound from '../../../src/js/cwSound.js';
+import Lesson from './lesson.js';
+import Checker from './checker.js';
 
     
 function initLessonSelector(lesson) {
